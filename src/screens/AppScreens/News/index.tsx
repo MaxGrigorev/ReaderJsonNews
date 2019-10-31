@@ -53,6 +53,7 @@ class News extends Component<Props, State> {
           avatar={news.imageUrl}
           title={news.title}
           subTitle={news.description}
+          stripHtmlDescription={false}
         />
 
       </View>
