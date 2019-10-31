@@ -839,6 +839,14 @@
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
 
+"@types/react-native-htmlview@^0.12.2":
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/@types/react-native-htmlview/-/react-native-htmlview-0.12.2.tgz#f4875fcb6cb214d0ccbf7670d8a41ccdc8790187"
+  integrity sha512-r5lWdZcZmcxLrfhIAAzBCEpDUuDFRiB5V9d0QvCqhTRh9vorlEjXgyZ5K8/HzbIOuvGb9/mQJPK0rItEAQk0dw==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-vector-icons@^6.4.1":
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.1.tgz#d0862f3eb97bbe5720ab604f2f10ee07dacb31ef"
@@ -1855,11 +1863,6 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
-escape-string-regexp@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
-  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
-
 escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -2547,7 +2550,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
@@ -4532,14 +4535,6 @@ react-native-vector-icons@^6.5.0:
     lodash "^4.0.0"
     prop-types "^15.6.2"
     yargs "^13.2.2"
-
-react-native-webview@^7.4.3:
-  version "7.4.3"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-7.4.3.tgz#e00e92e17f7389d84d09f5900652501ff2665915"
-  integrity sha512-4n72B2D7n1xOQSoCSD1qk9D7JksyT4d6nk8QG9guZKZn3KXQL5EejwE2yhh1TxZRQpr+OD3a96rb+rA/UEnvrQ==
-  dependencies:
-    escape-string-regexp "2.0.0"
-    invariant "2.2.4"
 
 react-native@0.59.9:
   version "0.59.9"
