@@ -11,6 +11,7 @@ import { Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
 import Home from "../screens/AppScreens/Home";
+import NewsList from "../screens/AppScreens/NewsList";
 import Blank from "../screens/AppScreens/Blank";
 import SideBar from "../screens/AppScreens/SideBar";
 import Login from "../screens/AuthScreens/Login";
@@ -18,10 +19,11 @@ import AuthLoading from "../screens/AuthLoading";
 
 const MainStack = createStackNavigator(
   {
-    Home: { screen: Home }
+    Home: { screen: Home },
+    NewsList: { screen: NewsList }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "NewsList",
     headerMode: "none"
   }
 );
@@ -56,7 +58,7 @@ export default createAppContainer(
       AppStack: AppStack
     },
     {
-      initialRouteName: "AuthLoading"
+      initialRouteName: "AppStack"
     }
   )
 );
