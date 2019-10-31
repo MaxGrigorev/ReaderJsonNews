@@ -11,9 +11,9 @@ import HTMLView from 'react-native-htmlview';
 import { colors } from "../constants";
 
 interface Props extends ViewProps {
-  title: string;
-  avatar: string;
-  subTitle: string;
+  title: string | undefined;
+  avatar: string | undefined;
+  subTitle: string | undefined;
 }
 
 export class NewsItem extends Component<Props, {}> {
@@ -24,24 +24,14 @@ export class NewsItem extends Component<Props, {}> {
         <ImageBackground
           source={{ uri: avatar }}
           style={styles.avatarStyle}
-        >
-
-        </ImageBackground>
-        <Text style={styles.titleStyle}>{title}</Text>
-        <Text style={styles.subTitleStyle}>{subTitle}</Text>
-        {/* <WebView
-          originWhitelist={['*']}
-          // ref={'webview'}
-          // automaticallyAdjustContentInsets={false}
-          // style={styles.webView}
-          source={{ html: title }} /> */}
-        {/* <WebView
-          originWhitelist={['*']}
-          source={{ html: '<h1>Hello world</h1>' }}
-        /> */}
+        />
         <HTMLView
-          value={subTitle}
-        // stylesheet={styles}
+          value={`<p>${title}</p>`}
+          stylesheet={styleTitle}
+        />
+        <HTMLView
+          value={`<p>${subTitle}</p>`}
+          stylesheet={styleSubTitle}
         />
       </View>
     );
@@ -58,16 +48,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12
   },
-  titleStyle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: colors.textColor
-  },
-  subTitleStyle: {
-    fontSize: 12,
-    fontWeight: "500",
-    color: colors.textColor
-  },
   avatarStyle: {
     width: "100%",
     height: 200,
@@ -75,5 +55,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.borderColor,
     justifyContent: "center",
     alignItems: "center"
+  }
+});
+
+const styleSubTitle = StyleSheet.create({
+  p: {
+    fontSize: 14,
+    color: colors.textColor
+  }
+});
+
+const styleTitle = StyleSheet.create({
+  p: {
+    fontSize: 20,
+    color: colors.textColor
   }
 });
