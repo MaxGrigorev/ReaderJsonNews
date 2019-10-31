@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator } from "react-native";
+import { View, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import { Header } from "../../../components";
@@ -8,21 +8,29 @@ import { NewsItem } from "../../../components";
 import { logoutUserService } from "../../../redux/services/user";
 import {
   fetchImageData,
-  fetchMoreImageData
+  fetchMoreImageData,
+  fetchNewsData,
 } from "../../../redux/actions/fetch";
 
-import datas from "./data";
+import { itemNews } from '../../../redux/reducers'
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
   fetchImageData: (page?: number, limit?: number) => void;
   fetchMoreImageData: (page?: number, limit?: number) => void;
+  fetchNewsData: () => void;
   imageData: any;
   loading: boolean;
+  news: any[];
 }
 
 interface itemProp {
-  item: any;
+  // item: any;
+  title: string;
+  date: Date,
+  shortDescription: string,
+  imageUrl: string,
+  description: string,
 }
 
 interface State {
@@ -30,7 +38,7 @@ interface State {
   limit: number;
 }
 
-class Home extends Component<Props, State> {
+class NewsList extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -40,9 +48,10 @@ class Home extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const { fetchImageData } = this.props;
+    const { fetchImageData, fetchNewsData } = this.props;
     const { page, limit } = this.state;
     fetchImageData(page, limit);
+    fetchNewsData();
   }
 
   handleLogout = () => {
@@ -53,7 +62,7 @@ class Home extends Component<Props, State> {
   };
 
   render() {
-    const { navigation, imageData, fetchMoreImageData, loading } = this.props;
+    const { navigation, imageData, fetchMoreImageData, loading, news } = this.props;
     const { page, limit } = this.state;
     return (
       <View style={styles.container}>
@@ -63,11 +72,19 @@ class Home extends Component<Props, State> {
           rightButtonPress={() => this.handleLogout()}
         />
         <FlatList
-          data={datas.feed.article}
-          keyExtractor={item => String(Math.random())}
-          renderItem={({ item }: itemProp) => {
+          data={news}
+          keyExtractor={item => String(Math.random())}// TODO key
+          renderItem={({ item }: { item: itemNews }) => {
             return (
-              <NewsItem avatar={item.imageUrl} title={item.title} subTitle={item.shortDescription} />
+              <TouchableOpacity
+                onPress={() => navigation.navigate("News", { news: item })}
+              >
+                <NewsItem
+                  avatar={item.imageUrl}
+                  title={item.title}
+                  subTitle={item.shortDescription}
+                />
+              </TouchableOpacity>
             );
           }}
           onEndReached={() => {
@@ -89,6 +106,7 @@ class Home extends Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
   imageData: state.data,
+  news: state.news,
   loading: state.loading
 });
 
@@ -97,11 +115,13 @@ function bindToAction(dispatch: any) {
     fetchImageData: (page?: number, limit?: number) =>
       dispatch(fetchImageData(page, limit)),
     fetchMoreImageData: (page?: number, limit?: number) =>
-      dispatch(fetchMoreImageData(page, limit))
+      dispatch(fetchMoreImageData(page, limit)),
+    fetchNewsData: () =>
+      dispatch(fetchNewsData()),
   };
 }
 
 export default connect(
   mapStateToProps,
   bindToAction
-)(Home);
+)(NewsList);
