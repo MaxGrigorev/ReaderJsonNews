@@ -1,7 +1,8 @@
 import { Dispatch } from "redux";
-import { fetchImageService } from "../services/user";
+import { fetchImageService, fetchNewsService } from "../services/user";
 
 export const IMAGE_DATA_FETCHED = "IMAGE_DATA_FETCHED";
+export const NEWS_DATA_FETCHED = "NEWS_DATA_FETCHED";
 export const DATA_LOADING = "DATA_LOADING";
 export const FETCH_MORE = "FETCH_MORE";
 
@@ -11,6 +12,20 @@ export function fetchImageData(page?: number, limit?: number) {
     fetchImageService(page, limit)
       .then((res: any) => {
         dispatch(imageDataFetched(res));
+        dispatch(loading(false));
+      })
+      .catch(err => {
+        dispatch(loading(false));
+      });
+  };
+}
+
+export function fetchNewsData() {
+  return (dispatch: Dispatch) => {
+    dispatch(loading(true));
+    fetchNewsService()
+      .then((res: any) => {
+        dispatch(newsDataFetched(res));
         dispatch(loading(false));
       })
       .catch(err => {
@@ -35,6 +50,11 @@ export function fetchMoreImageData(page?: number, limit?: number) {
 
 const imageDataFetched = (data: any[]) => ({
   type: IMAGE_DATA_FETCHED,
+  payload: data
+});
+
+const newsDataFetched = (data: any[]) => ({
+  type: NEWS_DATA_FETCHED,
   payload: data
 });
 

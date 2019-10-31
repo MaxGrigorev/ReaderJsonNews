@@ -1,16 +1,29 @@
-import { IMAGE_DATA_FETCHED, DATA_LOADING, FETCH_MORE } from "../actions/fetch";
+import { IMAGE_DATA_FETCHED, DATA_LOADING, FETCH_MORE, NEWS_DATA_FETCHED } from "../actions/fetch";
 interface Action {
   type: string;
   payload: any;
 }
+
+export interface itemNews {
+  title?: string;
+  date?: Date,
+  shortDescription?: string,
+  imageUrl?: string,
+  description?: string,
+}
+
 interface State {
   data: any[];
+  news: itemNews[];
   loading: boolean;
 }
 
+
+
 const intialState = {
   data: [],
-  loading: false
+  loading: false,
+  news: [],
 };
 
 export default (state: State = intialState, action: Action) => {
@@ -29,6 +42,11 @@ export default (state: State = intialState, action: Action) => {
       return {
         ...state,
         loading: action.payload
+      };
+    case NEWS_DATA_FETCHED:
+      return {
+        ...state,
+        news: action.payload.feed.article //TODO get lodash
       };
     default:
       return state;
