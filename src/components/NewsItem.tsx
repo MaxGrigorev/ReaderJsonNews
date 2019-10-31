@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   View,
   Text,
@@ -6,19 +6,36 @@ import {
   ViewProps,
   ImageBackground
 } from "react-native";
-// import { WebView } from 'react-native-webview';
-import HTMLView from 'react-native-htmlview';
+import stripHtml from "string-strip-html";
+import HTMLView from "react-native-htmlview";
 import { colors } from "../constants";
 
 interface Props extends ViewProps {
-  title: string | undefined;
-  avatar: string | undefined;
-  subTitle: string | undefined;
+  title?: string;
+  avatar?: string;
+  subTitle: string;
+  stripHtmlDescription?: boolean;
 }
 
-export class NewsItem extends Component<Props, {}> {
+const defaultProps = Object.freeze({
+  stripHtmlDescription: true,
+  subTitle: '',
+})
+
+export class NewsItem extends PureComponent<Props, {}> {
+
+  public static readonly defaultProps = defaultProps
+
   render() {
-    const { title, avatar, subTitle } = this.props;
+    const {
+      title,
+      avatar,
+      subTitle,
+      stripHtmlDescription,
+    } = this.props;
+
+    const subTitlevalue = stripHtmlDescription ? `<p>${stripHtml(subTitle)}</p>` : `<p>${subTitle}</p>`
+
     return (
       <View {...this.props} style={styles.itemContainer}>
         <ImageBackground
@@ -26,11 +43,11 @@ export class NewsItem extends Component<Props, {}> {
           style={styles.avatarStyle}
         />
         <HTMLView
-          value={`<p>${title}</p>`}
+          value={`<p>${stripHtml(title)}</p>`}
           stylesheet={styleTitle}
         />
         <HTMLView
-          value={`<p>${subTitle}</p>`}
+          value={subTitlevalue}
           stylesheet={styleSubTitle}
         />
       </View>
