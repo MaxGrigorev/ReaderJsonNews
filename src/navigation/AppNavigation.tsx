@@ -12,6 +12,7 @@ const { width } = Dimensions.get("window");
 
 import Home from "../screens/AppScreens/Home";
 import NewsList from "../screens/AppScreens/NewsList";
+import News from "../screens/AppScreens/News";
 import Blank from "../screens/AppScreens/Blank";
 import SideBar from "../screens/AppScreens/SideBar";
 import Login from "../screens/AuthScreens/Login";
@@ -20,7 +21,8 @@ import AuthLoading from "../screens/AuthLoading";
 const MainStack = createStackNavigator(
   {
     Home: { screen: Home },
-    NewsList: { screen: NewsList }
+    NewsList: { screen: NewsList },
+    News: { screen: News },
   },
   {
     initialRouteName: "NewsList",
