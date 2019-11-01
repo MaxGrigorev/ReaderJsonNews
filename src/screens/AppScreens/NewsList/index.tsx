@@ -67,9 +67,8 @@ class NewsList extends Component<Props, State> {
     return (
       <View style={styles.container}>
         <Header
-          title="Home"
-          leftButtonPress={() => navigation.openDrawer()}
-          rightButtonPress={() => this.handleLogout()}
+          title=""
+          rightButtonPress={() => { navigation.navigate("SetSource"); }}
         />
         <FlatList
           data={news}

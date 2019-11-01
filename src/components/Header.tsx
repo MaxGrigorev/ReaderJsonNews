@@ -15,9 +15,11 @@ export class Header extends Component<Props, {}> {
     return (
       <View style={styles.container}>
         <View style={styles.leftContainer}>
-          <TouchableOpacity style={styles.iconButton} onPress={leftButtonPress}>
-            <Icon name="ios-menu" size={24} />
-          </TouchableOpacity>
+          {!!leftButtonPress &&
+            <TouchableOpacity style={styles.iconButton} onPress={leftButtonPress}>
+              <Icon name="ios-arrow-back" size={24} />
+            </TouchableOpacity>
+          }
         </View>
         <View style={styles.midContainer}>
           <Text style={styles.headerTitle}>{title}</Text>
@@ -28,7 +30,7 @@ export class Header extends Component<Props, {}> {
               style={styles.iconButton}
               onPress={rightButtonPress}
             >
-              <Icon name="ios-power" size={24} />
+              <Text style={styles.rightButton}>{'Setup the source'}</Text>
             </TouchableOpacity>
           ) : null}
         </View>
@@ -47,12 +49,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColor
   },
+  rightButton: {
+    color: colors.primary,
+    fontWeight: "600"
+  },
   leftContainer: {
-    flex: 1,
+    flex: 2,
     alignItems: "flex-start"
   },
   midContainer: {
-    flex: 3,
+    flex: 1,
     alignItems: "center"
   },
   headerTitle: {
@@ -60,7 +66,7 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   rightContainer: {
-    flex: 1,
+    flex: 2,
     alignItems: "flex-end"
   },
   iconButton: {

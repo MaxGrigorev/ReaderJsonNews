@@ -1,4 +1,10 @@
-import { IMAGE_DATA_FETCHED, DATA_LOADING, FETCH_MORE, NEWS_DATA_FETCHED } from "../actions/fetch";
+import {
+  IMAGE_DATA_FETCHED,
+  DATA_LOADING,
+  FETCH_MORE,
+  NEWS_DATA_FETCHED,
+  SET_SOURCE,
+} from "../actions/fetch";
 interface Action {
   type: string;
   payload: any;
@@ -16,6 +22,7 @@ interface State {
   data: any[];
   news: itemNews[];
   loading: boolean;
+  sourceArray: string[];
 }
 
 
@@ -24,6 +31,7 @@ const intialState = {
   data: [],
   loading: false,
   news: [],
+  sourceArray: [],
 };
 
 export default (state: State = intialState, action: Action) => {
@@ -46,11 +54,17 @@ export default (state: State = intialState, action: Action) => {
     case NEWS_DATA_FETCHED:
       return {
         ...state,
-        news: action.payload.feed.article.sort(function (a: any, b: any) {
-          // Turn your strings into dates, and then subtract them
-          // to get a value that is either negative, positive, or zero.
-          return new Date(b.date) - new Date(a.date);
-        })//TODO get lodash
+        news: action.payload.feed.article
+        // .sort(function (a: any, b: any) {
+        //   // Turn your strings into dates, and then subtract them
+        //   // to get a value that is either negative, positive, or zero.
+        //   return new Date(b.date) - new Date(a.date);
+        // })//TODO get lodash
+      };
+    case SET_SOURCE:
+      return {
+        ...state,
+        sourceArray: [...state.sourceArray, action.payload]
       };
     default:
       return state;

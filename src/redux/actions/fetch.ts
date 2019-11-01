@@ -5,6 +5,7 @@ export const IMAGE_DATA_FETCHED = "IMAGE_DATA_FETCHED";
 export const NEWS_DATA_FETCHED = "NEWS_DATA_FETCHED";
 export const DATA_LOADING = "DATA_LOADING";
 export const FETCH_MORE = "FETCH_MORE";
+export const SET_SOURCE = "SET_SOURCE";
 
 export function fetchImageData(page?: number, limit?: number) {
   return (dispatch: Dispatch) => {
@@ -62,6 +63,17 @@ const fetchMore = (data: any[]) => ({
   type: FETCH_MORE,
   payload: data
 });
+
+export const setSource = (sourceUrl: string) => {
+  console.log(sourceUrl, "setSource");
+  return (dispatch: Dispatch) => {
+    console.log(dispatch, "dispatch");
+    dispatch({
+      type: SET_SOURCE,
+      payload: sourceUrl
+    });
+  }
+}
 
 export const loading = (loader: boolean) => ({
   type: DATA_LOADING,
