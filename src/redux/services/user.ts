@@ -15,9 +15,9 @@ export function fetchImageService(page?: number, limit?: number) {
   });
 }
 
-export function fetchNewsService() {
+export function fetchNewsService(sourceUrl: string) {
   return new Promise((resolve, reject) => {
-    fetch('https://gist.githubusercontent.com/happy-thorny/bd038afd981be300ac2ed6e5a8ad9f3c/raw/dd90f04475a2a7c1110151aacc498eabe683dfe4/memes.json')
+    fetch(sourceUrl)//('https://gist.githubusercontent.com/happy-thorny/bd038afd981be300ac2ed6e5a8ad9f3c/raw/dd90f04475a2a7c1110151aacc498eabe683dfe4/memes.json')
       .then(res => {
         return res.json();
       })

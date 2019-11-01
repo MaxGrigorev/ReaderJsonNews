@@ -40,6 +40,7 @@
     "@types/yup": "^0.26.17",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
+    "lodash.get": "^4.4.2",
     "metro-react-native-babel-preset": "^0.54.1",
     "react-test-renderer": "16.8.3",
     "typescript": "^3.5.2"

@@ -54,12 +54,7 @@ export default (state: State = intialState, action: Action) => {
     case NEWS_DATA_FETCHED:
       return {
         ...state,
-        news: action.payload.feed.article
-        // .sort(function (a: any, b: any) {
-        //   // Turn your strings into dates, and then subtract them
-        //   // to get a value that is either negative, positive, or zero.
-        //   return new Date(b.date) - new Date(a.date);
-        // })//TODO get lodash
+        news: action.payload
       };
     case SET_SOURCE:
       return {

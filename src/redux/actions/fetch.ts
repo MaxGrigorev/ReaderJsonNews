@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { fetchImageService, fetchNewsService } from "../services/user";
+import get from "lodash.get"
 
 export const IMAGE_DATA_FETCHED = "IMAGE_DATA_FETCHED";
 export const NEWS_DATA_FETCHED = "NEWS_DATA_FETCHED";
@@ -22,16 +23,34 @@ export function fetchImageData(page?: number, limit?: number) {
 }
 
 export function fetchNewsData() {
-  return (dispatch: Dispatch) => {
+  return (dispatch: Dispatch, getState: any) => {
     dispatch(loading(true));
-    fetchNewsService()
-      .then((res: any) => {
-        dispatch(newsDataFetched(res));
-        dispatch(loading(false));
+
+    const state = getState()
+    console.log('state', state)
+
+    const promiseArray = state.sourceArray.map((sourceUrl: string) => fetchNewsService(sourceUrl).catch(e => ({ error: e })))
+
+    Promise.all(promiseArray).then(values => {
+      console.log('fetchNewsData', values);
+
+      let news: any = values.reduce((newsArray: any, newsSource: any, index) => {
+        if (!newsSource.error) {
+          return [...newsArray, ...get(newsSource, 'feed.article', [])]
+        }
+        return newsArray
+      }, [])
+
+      news = news.sort(function (a: any, b: any) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a.date) - new Date(b.date);
       })
-      .catch(err => {
-        dispatch(loading(false));
-      });
+
+      dispatch(newsDataFetched(news));
+      dispatch(loading(false));
+
+    });
   };
 }
 
@@ -65,13 +84,12 @@ const fetchMore = (data: any[]) => ({
 });
 
 export const setSource = (sourceUrl: string) => {
-  console.log(sourceUrl, "setSource");
   return (dispatch: Dispatch) => {
-    console.log(dispatch, "dispatch");
     dispatch({
       type: SET_SOURCE,
       payload: sourceUrl
     });
+    dispatch(fetchNewsData());
   }
 }
 

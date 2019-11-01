@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
     height: 45,
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 16
+    marginVertical: 16,
+    width: '100%',
   },
   buttonTextStyle: {
     color: colors.containerBg,

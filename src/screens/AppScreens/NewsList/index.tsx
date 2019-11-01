@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-import { Header } from "../../../components";
+import { Header, Button } from "../../../components";
 import styles from "./styles";
 import { NewsItem } from "../../../components";
 import { logoutUserService } from "../../../redux/services/user";
@@ -22,10 +22,10 @@ interface Props {
   imageData: any;
   loading: boolean;
   news: any[];
+  sourceArray: string[];
 }
 
 interface itemProp {
-  // item: any;
   title: string;
   date: Date,
   shortDescription: string,
@@ -48,28 +48,42 @@ class NewsList extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const { fetchImageData, fetchNewsData } = this.props;
-    const { page, limit } = this.state;
-    fetchImageData(page, limit);
+    const { fetchNewsData } = this.props;
     fetchNewsData();
   }
 
-  handleLogout = () => {
-    const { navigation } = this.props;
-    logoutUserService().then(() => {
-      navigation.navigate("AuthStack");
-    });
-  };
+  tryReload = () => {
+    const { fetchNewsData } = this.props;
+    fetchNewsData();
+  }
 
   render() {
-    const { navigation, imageData, fetchMoreImageData, loading, news } = this.props;
+    const { navigation, imageData, fetchMoreImageData, loading, news, sourceArray } = this.props;
     const { page, limit } = this.state;
     return (
       <View style={styles.container}>
         <Header
           title=""
           rightButtonPress={() => { navigation.navigate("SetSource"); }}
+          leftButtonPress={() => navigation.openDrawer()}
         />
+        {!sourceArray.length &&
+          <View style={styles.noNews}>
+            <Text style={styles.titleStyle}>
+              {'The source is not defined'}
+            </Text>
+          </View>
+        }
+
+        {!!sourceArray.length && !!!news.length &&
+          <View style={styles.noNews}>
+            <Text style={styles.titleStyle}>
+              {'Try reload or set another source'}
+            </Text>
+            <Button text="Try reload" onPress={this.tryReload} />
+          </View>
+        }
+
         <FlatList
           data={news}
           keyExtractor={item => String(Math.random())}// TODO key
@@ -106,7 +120,8 @@ class NewsList extends Component<Props, State> {
 const mapStateToProps = (state: any) => ({
   imageData: state.data,
   news: state.news,
-  loading: state.loading
+  loading: state.loading,
+  sourceArray: state.sourceArray,
 });
 
 function bindToAction(dispatch: any) {

@@ -8,6 +8,16 @@ const styles = StyleSheet.create({
   loadingFooter: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  noNews: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 16,
+  },
+  titleStyle: {
+    fontSize: 16,
+    fontWeight: "500"
   }
 });
 

@@ -20,6 +20,7 @@ interface Props extends ViewProps {
 const defaultProps = Object.freeze({
   stripHtmlDescription: true,
   subTitle: '',
+  title: '',
 })
 
 export class NewsItem extends PureComponent<Props, {}> {
