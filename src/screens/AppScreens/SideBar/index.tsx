@@ -13,10 +13,13 @@ class SideBar extends Component<Props, {}> {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <ListItem title="Home" onPress={() => navigation.navigate("Home")} />
         <ListItem
-          title="Blank Page"
-          onPress={() => navigation.navigate("Blank")}
+          title="News List"
+          onPress={() => navigation.navigate("NewsList")}
+        />
+        <ListItem
+          title="Source List"
+          onPress={() => navigation.navigate("SourceList")}
         />
       </View>
     );

@@ -5,19 +5,27 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 interface Props {
   title: string;
+  iconName: string;
   leftButtonPress?: () => void;
   rightButtonPress?: () => void;
 }
 
+const defaultProps = Object.freeze({
+  iconName: 'ios-arrow-back',
+})
+
+
 export class Header extends Component<Props, {}> {
+  public static readonly defaultProps = defaultProps
+
   render() {
-    const { title, leftButtonPress, rightButtonPress } = this.props;
+    const { title, leftButtonPress, rightButtonPress, iconName } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.leftContainer}>
           {!!leftButtonPress &&
             <TouchableOpacity style={styles.iconButton} onPress={leftButtonPress}>
-              <Icon name="ios-arrow-back" size={24} />
+              <Icon name={iconName} size={24} />
             </TouchableOpacity>
           }
         </View>

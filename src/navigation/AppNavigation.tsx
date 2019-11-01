@@ -14,30 +14,21 @@ import Home from "../screens/AppScreens/Home";
 import NewsList from "../screens/AppScreens/NewsList";
 import News from "../screens/AppScreens/News";
 import SetSource from "../screens/AppScreens/SetSource"
+import SourceList from "../screens/AppScreens/SourceList"
+
 import Blank from "../screens/AppScreens/Blank";
 import SideBar from "../screens/AppScreens/SideBar";
-import Login from "../screens/AuthScreens/Login";
-import AuthLoading from "../screens/AuthLoading";
 
 const MainStack = createStackNavigator(
   {
     Home: { screen: Home },
     NewsList: { screen: NewsList },
     News: { screen: News },
-    SetSource: { screen: SetSource }
+    SetSource: { screen: SetSource },
+    SourceList: { screen: SourceList },
   },
   {
     initialRouteName: "NewsList",
-    headerMode: "none"
-  }
-);
-
-const AuthStack = createStackNavigator(
-  {
-    Login: { screen: Login }
-  },
-  {
-    initialRouteName: "Login",
     headerMode: "none"
   }
 );
@@ -57,8 +48,6 @@ const AppStack = createDrawerNavigator(
 export default createAppContainer(
   createSwitchNavigator(
     {
-      AuthLoading: AuthLoading,
-      AuthStack: AuthStack,
       AppStack: AppStack
     },
     {

@@ -22,14 +22,20 @@ export function fetchImageData(page?: number, limit?: number) {
   };
 }
 
-export function fetchNewsData() {
+export function fetchNewsData(sourceUrl?: string) {
   return (dispatch: Dispatch, getState: any) => {
     dispatch(loading(true));
-
+    console.log('fetchNewsData', sourceUrl)
     const state = getState()
-    console.log('state', state)
 
-    const promiseArray = state.sourceArray.map((sourceUrl: string) => fetchNewsService(sourceUrl).catch(e => ({ error: e })))
+    let sourceArray = state.sourceArray
+
+    if (!!sourceUrl) {
+      console.log('fetchNewsData sourceUrl', sourceUrl)
+      sourceArray = [sourceUrl]
+    }
+
+    const promiseArray = sourceArray.map((sourceUrl: string) => fetchNewsService(sourceUrl).catch(e => ({ error: e })))
 
     Promise.all(promiseArray).then(values => {
       console.log('fetchNewsData', values);

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-import get from "lodash.get"
+import Icon from "react-native-vector-icons/Ionicons";
 import { Header, Button } from "../../../components";
 import styles from "./styles";
 import { NewsItem } from "../../../components";
@@ -37,39 +37,15 @@ interface itemProp {
 interface State {
   page: number;
   limit: number;
-  // sourceUrl: string | null;
 }
 
-class NewsList extends Component<Props, State> {
+class SourceList extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       page: 1,
-      limit: 20,
-      // sourceUrl: null,
+      limit: 20
     };
-  }
-
-  componentDidMount() {
-    const { fetchNewsData } = this.props;
-    fetchNewsData();
-    console.log('componentDidMount')
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const sourceUrl = this.props.navigation.getParam('sourceUrl', '');
-    const prevSourceUrl = prevProps.navigation.getParam('sourceUrl', '');
-    const { fetchNewsData } = this.props;
-    if ((prevSourceUrl !== sourceUrl) && !!sourceUrl) {
-      console.log('componentDidUpdate if sourceUrl', sourceUrl, prevSourceUrl)
-      fetchNewsData(sourceUrl);
-    }
-    console.log('componentDidUpdate')
-  }
-
-  tryReload = () => {
-    const { fetchNewsData } = this.props;
-    fetchNewsData();
   }
 
   render() {
@@ -91,28 +67,28 @@ class NewsList extends Component<Props, State> {
           </View>
         }
 
-        {!!sourceArray.length && !!!news.length &&
-          <View style={styles.noNews}>
-            <Text style={styles.titleStyle}>
-              {'Try reload or set another source'}
-            </Text>
-            <Button text="Try reload" onPress={this.tryReload} />
-          </View>
-        }
-
         <FlatList
-          data={news}
+          data={sourceArray}
           keyExtractor={item => String(Math.random())}// TODO key
-          renderItem={({ item }: { item: itemNews }) => {
+          renderItem={({ item, index }: { item: string, index: number }) => {
             return (
               <TouchableOpacity
-                onPress={() => navigation.navigate("News", { news: item })}
+                onPress={() => navigation.navigate("NewsList", { sourceUrl: item })}
               >
-                <NewsItem
-                  avatar={item.imageUrl}
-                  title={item.title}
-                  subTitle={item.shortDescription}
-                />
+                <View style={styles.sourceItem}>
+                  <View style={{ flex: 10 }}>
+                    <Text style={styles.titleStyle}>
+                      {item}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <TouchableOpacity >
+                      {/* style={styles.iconButton} onPress={leftButtonPress} */}
+                      <Icon name={'ios-trash'} size={40} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
               </TouchableOpacity>
             );
           }}
@@ -142,12 +118,12 @@ function bindToAction(dispatch: any) {
       dispatch(fetchImageData(page, limit)),
     fetchMoreImageData: (page?: number, limit?: number) =>
       dispatch(fetchMoreImageData(page, limit)),
-    fetchNewsData: (sourceUrl?: string) =>
-      dispatch(fetchNewsData(sourceUrl)),
+    fetchNewsData: () =>
+      dispatch(fetchNewsData()),
   };
 }
 
 export default connect(
   mapStateToProps,
   bindToAction
-)(NewsList);
+)(SourceList);
