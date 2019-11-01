@@ -8,6 +8,15 @@ const styles = StyleSheet.create({
   loadingFooter: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  date: {
+    fontSize: 14,
+    color: colors.textColor,
+    textAlign: 'right',
+  },
+  linkContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 12
   }
 });
 

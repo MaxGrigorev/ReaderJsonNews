@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, FlatList, ActivityIndicator, Linking, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-import { Header } from "../../../components";
+import moment from "moment"
 import styles from "./styles";
-import { NewsItem } from "../../../components";
+import { NewsItem, Button, Header } from "../../../components";
 import { logoutUserService } from "../../../redux/services/user";
 import {
   fetchImageData,
@@ -30,10 +30,14 @@ interface State {
 
 class News extends Component<Props, State> {
 
-  handleLogout = () => {
-    const { navigation } = this.props;
-    logoutUserService().then(() => {
-      navigation.navigate("AuthStack");
+  handleClick = () => {
+    const { news } = this.props.navigation.state.params;
+    Linking.canOpenURL(news.link).then(supported => {
+      if (supported) {
+        Linking.openURL(news.link);
+      } else {
+        console.log("Don't know how to open URI: " + news.link);
+      }
     });
   };
 
@@ -47,7 +51,6 @@ class News extends Component<Props, State> {
         <Header
           title="News"
           leftButtonPress={() => navigation.goBack()}
-          rightButtonPress={() => this.handleLogout()}
         />
         <NewsItem
           avatar={news.imageUrl}
@@ -55,7 +58,19 @@ class News extends Component<Props, State> {
           subTitle={news.description}
           stripHtmlDescription={false}
         />
-
+        <View style={styles.linkContainer}>
+          <Text
+            style={styles.date}
+          >
+            {moment(news.date).format('MMMM D YYYY, h:mm A')}
+          </Text>
+          {news.link &&
+            <Button
+              text="Open link"
+              onPress={this.handleClick}
+            />
+          }
+        </View>
       </View>
     );
   }
