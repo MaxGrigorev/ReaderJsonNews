@@ -7,6 +7,7 @@ export const NEWS_DATA_FETCHED = "NEWS_DATA_FETCHED";
 export const DATA_LOADING = "DATA_LOADING";
 export const FETCH_MORE = "FETCH_MORE";
 export const SET_SOURCE = "SET_SOURCE";
+export const DELETE_SOURCE = "DELETE_SOURCE";
 
 export function fetchImageData(page?: number, limit?: number) {
   return (dispatch: Dispatch) => {
@@ -99,7 +100,34 @@ export const setSource = (sourceUrl: string) => {
   }
 }
 
+// export const deleteSource = (index: number) => {
+//   return (dispatch: Dispatch, getState: any) => {
+//     console.log('getState', getState)
+//     const state = getState()
+//     let sourceArray = state.sourceArray
+//     dispatch({
+//       type: DELETE_SOURCE,
+//       payload: sourceArray.splice(index, 1),
+//     });
+//     dispatch(fetchNewsData());
+//   }
+// }
+
+export const deleteSource = (index: number) => (dispatch: Dispatch, getState: any) => {
+  const state = getState()
+  let sourceArray = state.sourceArray
+  sourceArray.splice(index, 1),
+
+    dispatch({
+      type: DELETE_SOURCE,
+      payload: sourceArray,
+    });
+  dispatch(fetchNewsData());
+}
+
 export const loading = (loader: boolean) => ({
   type: DATA_LOADING,
   payload: loader
 });
+
+

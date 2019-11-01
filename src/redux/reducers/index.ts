@@ -4,6 +4,7 @@ import {
   FETCH_MORE,
   NEWS_DATA_FETCHED,
   SET_SOURCE,
+  DELETE_SOURCE,
 } from "../actions/fetch";
 interface Action {
   type: string;
@@ -60,6 +61,11 @@ export default (state: State = intialState, action: Action) => {
       return {
         ...state,
         sourceArray: [...state.sourceArray, action.payload]
+      };
+    case DELETE_SOURCE:
+      return {
+        ...state,
+        sourceArray: action.payload,
       };
     default:
       return state;

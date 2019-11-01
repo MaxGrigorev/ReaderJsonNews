@@ -11,6 +11,7 @@ import {
   fetchImageData,
   fetchMoreImageData,
   fetchNewsData,
+  deleteSource,
 } from "../../../redux/actions/fetch";
 
 import { itemNews } from '../../../redux/reducers'
@@ -24,6 +25,7 @@ interface Props {
   loading: boolean;
   news: any[];
   sourceArray: string[];
+  deleteSource: (index: number) => void;
 }
 
 interface itemProp {
@@ -49,7 +51,7 @@ class SourceList extends Component<Props, State> {
   }
 
   render() {
-    const { navigation, imageData, fetchMoreImageData, loading, news, sourceArray } = this.props;
+    const { navigation, imageData, fetchMoreImageData, loading, news, sourceArray, deleteSource } = this.props;
     const { page, limit } = this.state;
     return (
       <View style={styles.container}>
@@ -82,8 +84,9 @@ class SourceList extends Component<Props, State> {
                     </Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <TouchableOpacity >
-                      {/* style={styles.iconButton} onPress={leftButtonPress} */}
+                    <TouchableOpacity
+                      onPress={() => { deleteSource(index) }}
+                    >
                       <Icon name={'ios-trash'} size={40} />
                     </TouchableOpacity>
                   </View>
@@ -120,6 +123,8 @@ function bindToAction(dispatch: any) {
       dispatch(fetchMoreImageData(page, limit)),
     fetchNewsData: () =>
       dispatch(fetchNewsData()),
+    deleteSource: (index: number) =>
+      dispatch(deleteSource(index)),
   };
 }
 

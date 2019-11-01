@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-import get from "lodash.get"
+import shortid from 'shortid';
 import { Header, Button } from "../../../components";
 import styles from "./styles";
 import { NewsItem } from "../../../components";
-import { logoutUserService } from "../../../redux/services/user";
 import {
-  fetchImageData,
-  fetchMoreImageData,
   fetchNewsData,
 } from "../../../redux/actions/fetch";
 
@@ -26,29 +23,7 @@ interface Props {
   sourceArray: string[];
 }
 
-interface itemProp {
-  title: string;
-  date: Date,
-  shortDescription: string,
-  imageUrl: string,
-  description: string,
-}
-
-interface State {
-  page: number;
-  limit: number;
-  // sourceUrl: string | null;
-}
-
-class NewsList extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      page: 1,
-      limit: 20,
-      // sourceUrl: null,
-    };
-  }
+class NewsList extends Component<Props, {}> {
 
   componentDidMount() {
     const { fetchNewsData } = this.props;
@@ -73,8 +48,7 @@ class NewsList extends Component<Props, State> {
   }
 
   render() {
-    const { navigation, imageData, fetchMoreImageData, loading, news, sourceArray } = this.props;
-    const { page, limit } = this.state;
+    const { navigation, loading, news, sourceArray } = this.props;
     return (
       <View style={styles.container}>
         <Header
@@ -91,7 +65,7 @@ class NewsList extends Component<Props, State> {
           </View>
         }
 
-        {!!sourceArray.length && !!!news.length &&
+        {!!sourceArray.length && !!!news.length && !loading &&
           <View style={styles.noNews}>
             <Text style={styles.titleStyle}>
               {'Try reload or set another source'}
@@ -102,7 +76,7 @@ class NewsList extends Component<Props, State> {
 
         <FlatList
           data={news}
-          keyExtractor={item => String(Math.random())}// TODO key
+          keyExtractor={item => shortid.generate()}
           renderItem={({ item }: { item: itemNews }) => {
             return (
               <TouchableOpacity
@@ -116,13 +90,8 @@ class NewsList extends Component<Props, State> {
               </TouchableOpacity>
             );
           }}
-          ListFooterComponent={
-            loading ? (
-              <View style={styles.loadingFooter}>
-                <ActivityIndicator />
-              </View>
-            ) : null
-          }
+          refreshing={loading}
+          onRefresh={this.tryReload}
         />
       </View>
     );
@@ -130,7 +99,6 @@ class NewsList extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  imageData: state.data,
   news: state.news,
   loading: state.loading,
   sourceArray: state.sourceArray,
@@ -138,10 +106,6 @@ const mapStateToProps = (state: any) => ({
 
 function bindToAction(dispatch: any) {
   return {
-    fetchImageData: (page?: number, limit?: number) =>
-      dispatch(fetchImageData(page, limit)),
-    fetchMoreImageData: (page?: number, limit?: number) =>
-      dispatch(fetchMoreImageData(page, limit)),
     fetchNewsData: (sourceUrl?: string) =>
       dispatch(fetchNewsData(sourceUrl)),
   };
