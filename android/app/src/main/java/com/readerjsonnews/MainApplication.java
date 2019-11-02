@@ -1,4 +1,4 @@
-package com.rnreduxseed;
+package com.readerjsonnews;
 
 import android.app.Application;
 
