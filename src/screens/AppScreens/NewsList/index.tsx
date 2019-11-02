@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
+import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import shortid from 'shortid';
@@ -8,16 +8,13 @@ import styles from "./styles";
 import { NewsItem } from "../../../components";
 import {
   fetchNewsData,
-} from "../../../redux/actions/fetch";
+} from "../../../redux/actions";
 
 import { itemNews } from '../../../redux/reducers'
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
-  fetchImageData: (page?: number, limit?: number) => void;
-  fetchMoreImageData: (page?: number, limit?: number) => void;
   fetchNewsData: () => void;
-  imageData: any;
   loading: boolean;
   news: any[];
   sourceArray: string[];
@@ -28,7 +25,6 @@ class NewsList extends Component<Props, {}> {
   componentDidMount() {
     const { fetchNewsData } = this.props;
     fetchNewsData();
-    console.log('componentDidMount')
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -36,10 +32,8 @@ class NewsList extends Component<Props, {}> {
     const prevSourceUrl = prevProps.navigation.getParam('sourceUrl', '');
     const { fetchNewsData } = this.props;
     if ((prevSourceUrl !== sourceUrl) && !!sourceUrl) {
-      console.log('componentDidUpdate if sourceUrl', sourceUrl, prevSourceUrl)
       fetchNewsData(sourceUrl);
     }
-    console.log('componentDidUpdate')
   }
 
   tryReload = () => {
@@ -49,11 +43,12 @@ class NewsList extends Component<Props, {}> {
 
   render() {
     const { navigation, loading, news, sourceArray } = this.props;
+
     return (
       <View style={styles.container}>
         <Header
           iconName='ios-menu'
-          title=""
+          title="NEWS"
           rightButtonPress={() => { navigation.navigate("SetSource"); }}
           leftButtonPress={() => navigation.openDrawer()}
         />

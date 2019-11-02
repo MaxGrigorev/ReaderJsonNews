@@ -1,26 +1,23 @@
 import {
-  IMAGE_DATA_FETCHED,
   DATA_LOADING,
-  FETCH_MORE,
   NEWS_DATA_FETCHED,
   SET_SOURCE,
   DELETE_SOURCE,
-} from "../actions/fetch";
-interface Action {
+} from "../actions";
+export interface Action {
   type: string;
   payload: any;
 }
 
 export interface itemNews {
   title?: string;
-  date?: Date,
+  date?: string,
   shortDescription?: string,
   imageUrl?: string,
   description?: string,
 }
 
-interface State {
-  data: any[];
+export interface State {
   news: itemNews[];
   loading: boolean;
   sourceArray: string[];
@@ -29,7 +26,6 @@ interface State {
 
 
 const intialState = {
-  data: [],
   loading: false,
   news: [],
   sourceArray: [],
@@ -37,16 +33,6 @@ const intialState = {
 
 export default (state: State = intialState, action: Action) => {
   switch (action.type) {
-    case IMAGE_DATA_FETCHED:
-      return {
-        ...state,
-        data: action.payload
-      };
-    case FETCH_MORE:
-      return {
-        ...state,
-        data: [...state.data, ...action.payload]
-      };
     case DATA_LOADING:
       return {
         ...state,

@@ -3,61 +3,32 @@ import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Header, Button } from "../../../components";
+import shortid from 'shortid';
+import { Header } from "../../../components";
 import styles from "./styles";
-import { NewsItem } from "../../../components";
-import { logoutUserService } from "../../../redux/services/user";
 import {
-  fetchImageData,
-  fetchMoreImageData,
   fetchNewsData,
   deleteSource,
-} from "../../../redux/actions/fetch";
-
-import { itemNews } from '../../../redux/reducers'
+} from "../../../redux/actions";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
-  fetchImageData: (page?: number, limit?: number) => void;
-  fetchMoreImageData: (page?: number, limit?: number) => void;
   fetchNewsData: () => void;
-  imageData: any;
   loading: boolean;
   news: any[];
   sourceArray: string[];
   deleteSource: (index: number) => void;
 }
 
-interface itemProp {
-  title: string;
-  date: Date,
-  shortDescription: string,
-  imageUrl: string,
-  description: string,
-}
-
-interface State {
-  page: number;
-  limit: number;
-}
-
-class SourceList extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      page: 1,
-      limit: 20
-    };
-  }
+class SourceList extends Component<Props, {}> {
 
   render() {
-    const { navigation, imageData, fetchMoreImageData, loading, news, sourceArray, deleteSource } = this.props;
-    const { page, limit } = this.state;
+    const { navigation, loading, sourceArray, deleteSource } = this.props;
     return (
       <View style={styles.container}>
         <Header
           iconName='ios-menu'
-          title=""
+          title="SOURCE"
           rightButtonPress={() => { navigation.navigate("SetSource"); }}
           leftButtonPress={() => navigation.openDrawer()}
         />
@@ -71,7 +42,7 @@ class SourceList extends Component<Props, State> {
 
         <FlatList
           data={sourceArray}
-          keyExtractor={item => String(Math.random())}// TODO key
+          keyExtractor={item => shortid.generate()}
           renderItem={({ item, index }: { item: string, index: number }) => {
             return (
               <TouchableOpacity
@@ -109,7 +80,6 @@ class SourceList extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  imageData: state.data,
   news: state.news,
   loading: state.loading,
   sourceArray: state.sourceArray,
@@ -117,10 +87,6 @@ const mapStateToProps = (state: any) => ({
 
 function bindToAction(dispatch: any) {
   return {
-    fetchImageData: (page?: number, limit?: number) =>
-      dispatch(fetchImageData(page, limit)),
-    fetchMoreImageData: (page?: number, limit?: number) =>
-      dispatch(fetchMoreImageData(page, limit)),
     fetchNewsData: () =>
       dispatch(fetchNewsData()),
     deleteSource: (index: number) =>

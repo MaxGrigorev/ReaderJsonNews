@@ -1,34 +1,19 @@
 import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator, Linking, Text } from "react-native";
+import { View, Linking, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import moment from "moment"
 import styles from "./styles";
 import { NewsItem, Button, Header } from "../../../components";
-import { logoutUserService } from "../../../redux/services/user";
-import {
-  fetchImageData,
-  fetchMoreImageData,
-  fetchNewsData,
-} from "../../../redux/actions/fetch";
-
-import { itemNews } from '../../../redux/reducers'
+import { fetchNewsData } from "../../../redux/actions";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
-  fetchImageData: (page?: number, limit?: number) => void;
-  fetchMoreImageData: (page?: number, limit?: number) => void;
   fetchNewsData: () => void;
-  imageData: any;
   loading: boolean;
 }
 
-interface State {
-  page: number;
-  limit: number;
-}
-
-class News extends Component<Props, State> {
+class News extends Component<Props, {}> {
 
   handleClick = () => {
     const { news } = this.props.navigation.state.params;
@@ -49,7 +34,7 @@ class News extends Component<Props, State> {
     return (
       <View style={styles.container}>
         <Header
-          title="News"
+          title=""
           leftButtonPress={() => navigation.goBack()}
         />
         <NewsItem
@@ -77,16 +62,11 @@ class News extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  imageData: state.data,
   loading: state.loading
 });
 
 function bindToAction(dispatch: any) {
   return {
-    fetchImageData: (page?: number, limit?: number) =>
-      dispatch(fetchImageData(page, limit)),
-    fetchMoreImageData: (page?: number, limit?: number) =>
-      dispatch(fetchMoreImageData(page, limit)),
     fetchNewsData: () =>
       dispatch(fetchNewsData()),
   };
