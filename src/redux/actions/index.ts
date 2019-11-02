@@ -1,15 +1,15 @@
-import { Dispatch } from "redux";
+import { Dispatch, AnyAction } from "redux";
 import { fetchNewsService } from "../services";
 import { State, Action } from "../reducers"
-import get from "lodash.get"
+import get from "lodash/get"
 
 export const NEWS_DATA_FETCHED = "NEWS_DATA_FETCHED";
 export const DATA_LOADING = "DATA_LOADING";
 export const SET_SOURCE = "SET_SOURCE";
 export const DELETE_SOURCE = "DELETE_SOURCE";
 
-export function fetchNewsData(sourceUrl?: string): (dispatch: Dispatch<Action>, getState: any) => void {
-  return (dispatch: Dispatch<Action>, getState: State) => {
+export function fetchNewsData(sourceUrl?: string): (dispatch: Dispatch<Action>, getState: () => State) => void {
+  return (dispatch: Dispatch<Action>, getState: () => State) => {
     dispatch(loading(true));
     const state = getState()
 
