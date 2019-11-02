@@ -10,18 +10,15 @@ import { Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-import Home from "../screens/AppScreens/Home";
 import NewsList from "../screens/AppScreens/NewsList";
 import News from "../screens/AppScreens/News";
 import SetSource from "../screens/AppScreens/SetSource"
 import SourceList from "../screens/AppScreens/SourceList"
 
-import Blank from "../screens/AppScreens/Blank";
 import SideBar from "../screens/AppScreens/SideBar";
 
 const MainStack = createStackNavigator(
   {
-    Home: { screen: Home },
     NewsList: { screen: NewsList },
     News: { screen: News },
     SetSource: { screen: SetSource },
@@ -36,7 +33,6 @@ const MainStack = createStackNavigator(
 const AppStack = createDrawerNavigator(
   {
     MainStack: { screen: MainStack },
-    Blank: { screen: Blank }
   },
   {
     drawerWidth: width - 50,
