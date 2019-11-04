@@ -63,7 +63,7 @@ class SourceList extends Component<Props, {}> {
                 <View style={styles.sourceItem}>
                   <View style={{ flex: 10 }}>
                   <Text style={styles.titleStyle}>
-                      {'Channel '+index+1}
+                      {`Channel ${index+1}`}
                     </Text>
                     <Text style={styles.titleStyle}>
                       {item}
