@@ -18,13 +18,13 @@ interface Props {
   setSource: (sourceUrl: string) => void;
 }
 interface userData {
-  username: string;
+  sourceUrl: string;
 }
 
 class SetSource extends Component<Props, {}> {
   handleLogin = (values: userData) => {
     const { navigation, setSource } = this.props;
-    setSource(values.username)
+    setSource(values.sourceUrl)
     navigation.navigate("NewsList");
   };
 
@@ -41,7 +41,7 @@ class SetSource extends Component<Props, {}> {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
             <Formik
-              initialValues={{ username: "", }}
+              initialValues={{ sourceUrl: "", }}
               onSubmit={values => this.handleLogin(values)}
             >
               {props => {
@@ -50,10 +50,9 @@ class SetSource extends Component<Props, {}> {
                     <View style={styles.inputContainer}>
                       <Input
                         placeholder="Enter source url"
-                        value={props.values.username}
-                        onChangeText={props.handleChange("username")}
-                        onBlur={props.handleBlur("username")}
-                        error={props.touched.username && props.errors.username}
+                        value={props.values.sourceUrl}
+                        onChangeText={props.handleChange("sourceUrl")}
+                        onBlur={props.handleBlur("sourceUrl")}
                       />
                       <Button text="Setup the source" onPress={props.handleSubmit} />
                     </View>
