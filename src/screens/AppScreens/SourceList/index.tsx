@@ -30,7 +30,7 @@ class SourceList extends Component<Props, {}> {
           iconName='ios-menu'
           title="SOURCE"
           rightButtonPress={() => { navigation.navigate("SetSource"); }}
-          leftButtonPress={() => navigation.openDrawer()}
+          leftButtonPress={() => navigation.closeDrawer()}
         />
         {!sourceArray.length &&
           <View style={styles.noNews}>
@@ -40,16 +40,31 @@ class SourceList extends Component<Props, {}> {
           </View>
         }
 
+        {!!sourceArray.length &&
+          <TouchableOpacity
+              onPress={() => {navigation.navigate("NewsList", { sourceUrl: null,channel:null });navigation.closeDrawer()}}
+            >
+            <View style={styles.sourceItem}>
+                <Text style={styles.titleStyle}>
+                  {'All channel'}
+                </Text>
+            </View>
+          </TouchableOpacity>
+        }
+
         <FlatList
           data={sourceArray}
           keyExtractor={item => shortid.generate()}
           renderItem={({ item, index }: { item: string, index: number }) => {
             return (
               <TouchableOpacity
-                onPress={() => navigation.navigate("NewsList", { sourceUrl: item })}
+                onPress={() => {navigation.navigate("NewsList", { sourceUrl: item,channel:index+1 });navigation.closeDrawer()}}
               >
                 <View style={styles.sourceItem}>
                   <View style={{ flex: 10 }}>
+                  <Text style={styles.titleStyle}>
+                      {'Channel '+index+1}
+                    </Text>
                     <Text style={styles.titleStyle}>
                       {item}
                     </Text>

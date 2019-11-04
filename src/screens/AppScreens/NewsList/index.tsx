@@ -44,11 +44,13 @@ class NewsList extends Component<Props, {}> {
   render() {
     const { navigation, loading, news, sourceArray } = this.props;
 
+    const channel = navigation.getParam('channel', null);
+
     return (
       <View style={styles.container}>
         <Header
           iconName='ios-menu'
-          title="NEWS"
+          title={channel?`Channel ${channel}`:"NEWS"}
           rightButtonPress={() => { navigation.navigate("SetSource"); }}
           leftButtonPress={() => navigation.openDrawer()}
         />

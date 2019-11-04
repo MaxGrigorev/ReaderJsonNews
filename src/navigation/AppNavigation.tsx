@@ -37,7 +37,7 @@ const AppStack = createDrawerNavigator(
   {
     drawerWidth: width - 50,
     drawerPosition: "left",
-    contentComponent: props => <SideBar {...props} />
+    contentComponent: props => <SourceList {...props} />
   }
 );
 
