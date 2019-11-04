@@ -28,6 +28,6 @@ $ npm install
 
 - Run `react-native run-android` in your terminal
 
-### Link to source
+### Link to source news
 
 - https://gist.githubusercontent.com/MaxGrigorev/609de4d53bb376b845d2d21cfc9fdc93/raw/5a418725b4babd454f2d2071b9d574583d1747ea/news.json
