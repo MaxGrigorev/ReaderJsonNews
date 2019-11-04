@@ -4,6 +4,7 @@ import {
   SET_SOURCE,
   DELETE_SOURCE,
 } from "../actions";
+
 export interface Action {
   type: string;
   payload: any;
@@ -51,7 +52,7 @@ export default (state: State = intialState, action: Action) => {
     case DELETE_SOURCE:
       return {
         ...state,
-        sourceArray: action.payload,
+        sourceArray: [...action.payload],
       };
     default:
       return state;
