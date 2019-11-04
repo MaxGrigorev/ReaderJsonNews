@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, TouchableOpacity, Text } from "react-native";
+import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -81,6 +81,13 @@ class SourceList extends Component<Props, {}> {
               </TouchableOpacity>
             );
           }}
+          ListFooterComponent={
+            loading ? (
+              <View style={styles.loadingFooter}>
+                <ActivityIndicator />
+              </View>
+            ) : null
+          }
         />
       </View>
     );
