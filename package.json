@@ -9,7 +9,7 @@
   "dependencies": {
     "babel-plugin-transform-remove-console": "^6.9.4",
     "formik": "^1.5.7",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "react": "16.8.3",
     "react-native": "0.59.9",
